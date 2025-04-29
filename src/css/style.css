@@ -1,0 +1,75 @@
+/* Popup */
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* Custom Red Border */
+.border-red-500 {
+  border-color: #ef4444; /* Tailwind's red-500 */
+}
+
+/* Custom Error Message */
+.text-red-500 {
+  color: #ef4444; /* Tailwind's red-500 */
+  font-size: 0.875rem; /* text-sm */
+  margin-top: 0.25rem; /* mt-1 */
+}
+
+/* Edit Sequence Mode Animation */
+.edit-sequence-mode {
+  animation: pulse 0.8s infinite alternate;
+  border: 1px dashed #4c8ffb; /*Blue dashed border*/
+  background-color: rgb(230, 240, 248);
+}
+
+/* Delete Animation (Telegram-like) */
+@keyframes deleteAnimation {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.delete-animation {
+  animation: deleteAnimation 0.5s ease-out forwards;
+}
+
+/* Complete Animation */
+@keyframes completeAnimation {
+  0% {
+    background-color: white;
+  }
+  100% {
+    background-color: #9fffcd; /* Light green background */
+  }
+}
+
+.complete-animation {
+  animation: completeAnimation 5s ease-out forwards;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.98); /* Slightly enlarge the card */
+  }
+}
+
+/* Drag-and-Drop Hover Effect */
+#task-container > div[draggable="true"]:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+

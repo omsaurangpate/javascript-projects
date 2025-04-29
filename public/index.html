@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="./planit-favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../src/css/output.css" />
+    <link rel="stylesheet" href="../src/css/style.css" />
+    <title>Task Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body
+    class="bg-gradient-to-br from-[#faefe1] via-[#dcedfc] to-[#dcedfc] min-h-screen text-gray-800"
+  >
+    <!-- Navigation Bar -->
+    <nav class="flex items-center justify-between px-4 py-3 shadow-lg md:px-6">
+      <div class="flex items-center space-x-3">
+        <div
+          class="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-white font-bold"
+        >
+          <img src="../src/assets/images/planit-logo.jpg" alt="" />
+        </div>
+        <span class="text-base font-bold md:text-2xl">Task Manager</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <img
+          src="../src/assets/icons/calendar-clock.svg"
+          class="w-6 h-6 md:w-6 md:h-6"
+          alt=""
+        />
+        <span id="date-time" class="text-sm font-bold md:text-base"></span>
+      </div>
+    </nav>
+
+    <!-- Main Section -->
+    <main class="h-auto md:h-[89vh] flex flex-col md:flex-row">
+      <!-- Pop Up -->
+      <div id="task-popup" class="hidden fixed top-5 right-5 z-10 bg-green-500 text-white px-4 py-2 rounded shadow-md transition-opacity duration-500">
+        Task added successfully!
+    </div>
+    
+      <!-- Left Section -->
+      <div class="w-full md:w-1/2 flex items-center justify-center">
+        <form
+          class="backdrop-blur-md p-3 border border-gray-300 md:p-3 mt-4 md:m-0 rounded shadow-2xl space-y-1 md:space-y-1 w-5/6"
+        >
+          <h2 class="text-lg md:text-xl font-bold text-center">Add Tasks</h2>
+          <div>
+            <label for="title" class="block text-sm font-medium">Title</label>
+            <input
+              id="title"
+              type="text"
+              class="w-full px-3 py-2 border border-[#cfcfcf] focus:outline-none rounded"
+              placeholder="Enter title"
+            />
+          </div>
+          <div>
+            <label for="description" class="block text-sm font-medium"
+              >Description</label
+            >
+            <textarea
+              id="description"
+              rows="3"
+              class="w-full px-3 py-2 border border-[#cfcfcf] rounded focus:outline-none"
+              placeholder="Enter description"
+            ></textarea>
+          </div>
+          <div>
+            <label for="priority" class="block text-sm font-medium"
+              >Priority</label
+            >
+            <select
+              id="priority"
+              class="w-full px-3 py-2 border border-[#cfcfcf] rounded focus:outline-none cursor-pointer"
+            >
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <div class="flex space-x-4">
+            <div class="w-1/2">
+              <label for="date" class="block text-sm font-medium">Date</label>
+              <input
+                id="date"
+                type="date"
+                class="w-full px-3 py-2 border border-[#cfcfcf] rounded focus:outline-none cursor-pointer"
+              />
+            </div>
+            <div class="w-1/2">
+              <label for="time" class="block text-sm font-medium">Time</label>
+              <input
+                id="time"
+                type="time"
+                class="w-full px-3 py-2 border border-[#cfcfcf] rounded focus:outline-none cursor-pointer"
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="w-full font-bold text-white bg-[#1877f2] py-2 rounded hover:bg-blue-600"
+          >
+            Add
+          </button>
+        </form>
+      </div>
+
+      <!-- Right Section -->
+      <div
+        class="w-full md:w-1/2 my-4 flex flex-col p-4 md:p-6 bg-opacity-80 mt-4 border border-gray-300 shadow-2xl backdrop-blur-md rounded"
+      >
+        <div class="flex items-center justify-between mb-2">
+          <!-- Left Corner: Heading -->
+          <h1 class="text-lg md:text-xl font-bold">Tasks</h1>
+
+          <!-- Right Corner: Buttons -->
+          <div class="flex space-x-2">
+            <!-- Edit Sequence Button -->
+            <button
+              id="edit-sequence-btn"
+              class="border border-gray-400 shadow hover:bg-gray-100 px-6 py-1 rounded-2xl"
+            >
+              Edit Sequence
+            </button>
+
+            <!-- Filter Button and Popup Menu -->
+            <div class="relative">
+              <button
+                id="filter-btn"
+                class="border border-gray-400 shadow hover:bg-gray-100 px-6 py-1 rounded-2xl flex items-center"
+              >
+                <img
+                  src="../src/assets/icons/filter-icon.svg"
+                  class="h-5 w-5"
+                  alt="Filter"
+                />
+                <span class="ml-1">Filter</span>
+              </button>
+
+              <!-- Filter Popup Menu -->
+              <div
+                id="filter-popup"
+                class="hidden absolute right-0 mt-2 w-64 bg-white rounded shadow-lg z-10 border border-gray-200"
+              >
+                <div class="p-2">
+                  <!-- Filter by Priority -->
+                  <div class="mb-2">
+                    <h3 class="text-sm font-semibold text-gray-700 mb-1">
+                      Filter by Priority
+                    </h3>
+                    <select
+                      id="priority-filter"
+                      class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">All</option>
+                      <option value="high">High</option>
+                      <option value="medium">Medium</option>
+                      <option value="low">Low</option>
+                    </select>
+                  </div>
+
+                  <!-- Filter by Date -->
+                  <div>
+                    <h3 class="text-sm font-semibold text-gray-700 mb-1">
+                      Filter by Date
+                    </h3>
+                    <input
+                      id="date-filter"
+                      type="date"
+                      class="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+
+                <!-- Apply Filter Button -->
+                <div class="p-3 border-t bg-gray-50 rounded">
+                  <button
+                    id="apply-filter"
+                    class="w-full text-white px-4 py-1 rounded bg-[#1877f2] hover:bg-blue-600 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    Apply Filter
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="task-container" class="flex-1 overflow-y-auto space-y-3"></div>
+      </div>
+    </main>
+
+    <footer class="w-full bg-gray-800 h-16 flex justify-center items-center text-center">
+      <p class="text-white">
+        &copy;2025 Task Manager | All rights reserved. Design and Developed By
+        <a
+          class="font-bold text-blue-500"
+          href="https://www.linkedin.com/in/om-saurangpate/"
+          target="_blank"
+          >Om Saurangpate</a
+        >.
+      </p>
+    </footer>
+    <script type="module" src="../src/js/app.js"></script>
+  </body>
+</html>
